@@ -1,0 +1,62 @@
+* TABELLE MACROAREE (Dati totali)
+
+ file macro /farms_output.csv/;
+ macro.pw=255;
+ macro.pc=5;
+ macro.lw=20;
+
+
+ put macro;
+ put "farm", put "parameter", put "crop", put "scenario", put "value", put /;
+
+
+loop((ra,farmj,ky,proc,t)$ris_macroaree(ra,farmj,ky,proc,t),
+  put farmj.tl, put ky.tl,   put proc.tl,  put t.tl,
+  put ris_macroaree(ra,farmj,ky,proc,t) :0:5, put /;
+                                                                   );
+
+
+loop((ra,farmj,ky,t)$ris_macroaree(ra,farmj,ky,"XXX",t),
+  put farmj.tl, put ky.tl,   put "XXX",  put t.tl,
+  put ris_macroaree(ra,farmj,ky,"XXX",t) :0:5, put /;
+                                                                   );
+
+                                                                  
+file macro2 /farms_ZZ.csv/;
+ macro2.pw=255;
+ macro2.pc=5;
+ macro2.lw=20;
+ 
+put macro2;
+ put "destination", put "origin", put "scenario", put "value", put /;
+ 
+loop((n,m,t)$(re_land_exchange_Z(n,m,t) gt 0.001),
+  put n.tl, put m.tl, put t.tl,
+  put re_land_exchange_Z(n,m,t) :0:5, put /;
+                                                                   );
+                                                                   
+file macro3 /farms_VV.csv/;
+ macro3.pw=255;
+ macro3.pc=5;
+ macro3.lw=20;
+ 
+put macro3;
+ put "origin", put "destination", put "scenario", put "value", put /;
+ 
+loop((n,m,t)$(re_land_exchange_V(n,m,t) gt 0.001),
+  put n.tl, put m.tl, put t.tl,
+  put re_land_exchange_V(n,m,t) :0:5, put /;
+                                                                   );
+
+file macro4 /coupled_subsidies_output.csv/;
+ macro4.pw=255;
+ macro4.pc=5;
+ macro4.lw=20;
+
+ put macro4;
+ put "farm", put "policy", put "crop", put "scenario", put "value", put /;
+
+loop((ra,farmj,coupled_policy,proc,t)$gre_coupled_subsidy_per_policy_and_proc(ra,farmj,coupled_policy,proc,t),
+  put farmj.tl, put coupled_policy.tl,   put proc.tl,  put t.tl,
+  put gre_coupled_subsidy_per_policy_and_proc(ra,farmj,coupled_policy,proc,t) :0:5, put /;
+                                                                   );

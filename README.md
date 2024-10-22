@@ -1,0 +1,3 @@
+# AGRICORE short term model
+
+This repository contains the GAMS code implementing the AGRICORE short term model. The structure of the folder is adapted for the automatic usage within the AGRICORE suite. If the user needs to run the model manually, it would need to create the required input files and copy the content of the COMMON folder to both, MODEL_CSV_CALIBRATION and MODEL_CSV_SIMULATION. To run a simulation, please copy the calibration result files to the MODEL_CSV_SIMULATION when the calibration has been completed (all of this is automated in the AGRICORE suite).

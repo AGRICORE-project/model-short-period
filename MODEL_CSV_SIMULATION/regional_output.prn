@@ -1,0 +1,108 @@
+*=================================================================================================
+*                                  P U T                                                        *
+*=================================================================================================
+
+
+* TABELLE REGIONALI TOTALI (Dati totali)
+
+ file res /regional_output.csv/;
+ res.pw=255;
+ res.pc=5;
+ res.lw=20;
+
+
+ put res;
+
+ put "DATI REGIONALI";
+ put //;
+
+put "* "; put system.title; put /;
+ put/;
+put "* Data di esecuzione (Mese/Giorno/Anno): "; put system.date; put /;
+ put /;
+put "* Modello " ; put system.ifile; put/;
+ put /;
+
+
+
+
+
+put "            ", loop (t, put t.tl :9); put /;
+
+$ontext
+ put //;
+ put "Prices", put /;
+
+loop(proc, put proc.tl :9 ;
+  loop (t, put re_prezv(proc,t):9:5; );put /;); put /;
+$offtext
+
+ put //;
+ put "Produced_quantity", put /;
+
+loop(proc, put proc.tl :9 ;
+  loop (t, put re_prodv(proc,t):9:5; );put /;); put /;
+
+
+ put //;
+ put "Surfaces", put /;
+
+ loop(proc, put proc.tl :9 ;
+  loop (t, put re_supv(proc,t):9:5; );put /;); put /;
+  
+ put //;
+put "bpa";  loop (t, put re_subpa(t):9:5; );put /; put /;
+  
+put //;
+ put "water consumption", put /;
+ loop(proc, put proc.tl :9 ;
+  loop (t, put re_h2o(proc,t):9:5; );put /;); put /;
+
+
+put //;
+ put "CO2 emission", put /;
+ loop(proc, put proc.tl :9 ;
+  loop (t, put re_co2(proc,t):9:5; );put /;); put /;
+  
+put //;
+ put "N emission", put /; loop (t, put re_nitrogen(t):9:5; );put /; put /;
+
+
+ put //;
+ put "Economic results", put /;
+
+ put "plv";       loop (t, put re_plvt(t):9:5;  ); put /;
+ put "comp-tot";  loop (t, put re_comptn(t):9:5; ); put /;
+ put "DECOUPLED SUBS_GREEN";  loop (t, put re_aiutidis_GREEN(t):9:5; ); put /;
+ put "DECOUPLED SUBS_BASIC";  loop (t, put re_aiutidis_BASIC(t):9:5; ); put /;
+ put "DECOUPLED SUBS_PENSION";  loop (t, put re_aiutidis_PENSION(t):9:5; ); put /;
+ 
+ put "COUPLED SUBS";  loop (t, put re_aiutiacc(t):9:5; ); put /;
+ put "costs-t";   loop (t, put re_costt(t):9:5;  ); put /;
+ put "GM";        loop (t, put re_obj(t):9:5;    ); put //;
+* put "RDM";       loop (t, put re_rdm(t):9:5;    ); put /;
+
+$ontext
+ put //;
+ put "average subs", put /;
+
+ loop(proc, put proc.tl :9 ;
+  loop (t, put re_comphv(proc,t):9:5; );put /;); put /;
+
+
+ put //;
+ put "shadow prices", put /;
+
+ 
+$ontext
+put "land";  loop (t, put re_pombt(t):9:5; ); put /;
+$offtext
+
+
+
+ put/;
+put/;
+
+*execute_unload "results_HC.gdx" re_prezv re_supv
+*execute 'gdxxrw.exe results_HC.gdx par=re_prezv rng=0.30!a1:zza20'
+*execute 'gdxxrw.exe results_HC.gdx par=re_supv rng=0.30!a21:zza40'
